@@ -4,11 +4,8 @@ library(tidyr)
 library(ggplot2)
 library(readr)
 
-# Set the font size and image padding for all ggplot2 plots
-theme_set(theme_gray(base_size = 30) + theme(plot.margin = margin(1, 1, 1, 1, "cm")))
-
 # Specify the path to your CSV file
-file_path <- 'data.csv'
+file_path <- 'Group_EF_data.csv'
 
 # Load the data
 df <- read_csv(file_path, show_col_types = FALSE)
@@ -48,7 +45,9 @@ p <- ggplot(grouped_df, aes(x = gender, y = correlation, fill = gender)) +
   geom_bar(stat = "identity") +
   labs(x = "Gender", y = "Correlation between Average Attitude and Intention") +
   theme_minimal() +
-  ggtitle("Gender-wise Correlation between Average Attitude and Intention Scores")
+  ggtitle("Gender-wise Correlation between Average Attitude and Intention Scores") +
+  theme(text = element_text(size = 30),
+        plot.margin = margin(1, 1, 1, 1, "cm"))
 
 # Print the plot
 print(p)
