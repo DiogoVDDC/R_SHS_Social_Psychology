@@ -1,4 +1,4 @@
-# README for Age Distribution Histogram R Script
+# README
 
 ## Description
 
