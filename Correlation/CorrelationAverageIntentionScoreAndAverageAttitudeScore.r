@@ -4,11 +4,8 @@ library(tidyr)
 library(ggplot2)
 library(readr)
 
-# Set the font size and image padding for all ggplot2 plots
-theme_set(theme_gray(base_size = 30) + theme(plot.margin = margin(1, 1, 1, 1, "cm")))
-
 # Specify the path to your CSV file
-file_path <- 'data.csv'
+file_path <- './Group_EF_data.csv'
 
 # Load the data
 df <- read_csv(file_path, show_col_types = FALSE)
@@ -30,10 +27,16 @@ intentions <- df %>%
 df$attitudes_avg <- rowMeans(attitudes, na.rm = TRUE)
 df$intentions_avg <- rowMeans(intentions, na.rm = TRUE)
 
+print(df$attitudes_avg)
+print(df$intentions_avg)
+
 # Replace numeric gender codes with descriptive labels
 df$gender <- factor(df$gender, 
                             levels = c(1, 2, 3, 4),
                             labels = c('Male', 'Female', 'Non Binary', 'Other'))
+
+# Filter out the 'Other' category
+df <- df %>% filter(gender != 'Other')
 
 # Calculate correlation within each gender group
 grouped_df <- df %>%
@@ -46,9 +49,13 @@ print(grouped_df)
 # Create bar plot
 p <- ggplot(grouped_df, aes(x = gender, y = correlation, fill = gender)) +
   geom_bar(stat = "identity") +
-  labs(x = "Gender", y = "Correlation between Average Attitude and Intention") +
+  labs(x = "", y = "Correlation between Average Attitude and Intention") +
   theme_minimal() +
-  ggtitle("Gender-wise Correlation between Average Attitude and Intention Scores")
+  ggtitle("Gender-wise Correlation between \n Average Attitude and Intention Scores") +
+  theme(text = element_text(size = 20),
+        plot.margin = margin(1, 1, 1, 1, "cm"),
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_text(margin = margin(t = 0, r = 30, b = 0, l = 0)))
 
 # Print the plot
 print(p)
